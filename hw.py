@@ -8,6 +8,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # связываем приложение и экземпляр SQLAlchemy
 db.init_app(app)
 
+@app.route('/tasks')
+def task():
+    tasks = ("Сьесть кота", "Нарезать детей", "Посмотреть рикролл", "Прийти ночью домой к тем, кто посмотрел эти задания и не выполнил их")
+    return render_template('tasks.html', tasks=tasks*len(tasks))
+
 @app.route('/')
 def home():
     return 'Это главная страница.'
