@@ -48,5 +48,40 @@ def songs():
     songs_list = Song.query.all()
     return render_template('songs.html', songs=songs_list)
 
+bigchars = "QWERTYUIOPASDFGHJKLZXCVBNMЙЦЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
+
+@app.route('/game', methods=['GET', 'POST'])
+def passwordgame():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if username.lower() not in password.lower():
+            return render_template('login.html', error="Пароль должен содержать логин")
+
+        check = False
+        for i in bigchars:
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать большие буквы")
+
+        check = False
+        for i in bigchars.lower():
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать маленькие буквы")
+
+        check = False
+        for i in bigchars.lower():
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать маленькие буквы")
+
+        return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+    else:
+        return render_template('login.html', error="")
+
 if __name__ == '__main__':
     app.run(port=8000, debug=True)
