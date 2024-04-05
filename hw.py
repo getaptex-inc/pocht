@@ -49,6 +49,10 @@ def songs():
     return render_template('songs.html', songs=songs_list)
 
 bigchars = "QWERTYUIOPASDFGHJKLZXCVBNMЙЦЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮЁ"
+numbers = "1234567890"
+specialChars = "~!@#$%^&*()-_=+`[{'\"/|№;%:?*;:.,}]"
+romesNumbers = "IVXLCDM"
+sponsors = ("pepsi", "coca-cola", "taste of asshole",)
 
 @app.route('/game', methods=['GET', 'POST'])
 def passwordgame():
@@ -79,6 +83,34 @@ def passwordgame():
         if not check:
             return render_template('login.html', error="Пароль должен содержать маленькие буквы")
 
+        check = False
+        for i in numbers:
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать цифры")
+        
+        check = False
+        for i in specialChars:
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать специальные символы")
+        
+        check = False
+        for i in romesNumbers:
+            if i in password:
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать римские цифры")
+        
+        check = False
+        for i in sponsors:
+            if i in password.lower():
+                check = True
+        if not check:
+            return render_template('login.html', error="Пароль должен содержать наших спонсоров: \"pepsi\" \"coca-cola\" \"taste of asshole\"")
+        
         return redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     else:
         return render_template('login.html', error="")
